@@ -1,45 +1,55 @@
 #include "stats.h"
 
+int emailAlertCallCount = 0;
+int ledAlertCallCount = 0;
+
+
 struct Stats compute_statistics(const float* numberset, int setlength) {
     struct Stats s;
     s.average = 0.0f;
     s.min = 0.0f;
     s.max = 0.0f;
 	
-	float temp;
-	int outer_loop, inner_loop;
+	int ele = 0, loop;
 	
 	/*Argment validation*/
 	if (setlength == 0)
 	{
-		s.average = s.min = s.max = INFINITY;
+		s.average = s.min = s.max = NAN;
 	}
 	else
 	{
-		/*Sorting the numbers in ascending*/
-		for (outer_loop = 0; outer_loop < setlength-1; outer_loop++)
+		if (numberset [ele] > numberset [ele+1])
 		{
-			for (inner_loop = outer_loop+1; inner_loop < setlength; inner_loop++)
+			s.max = numberset [ele];
+			s.min = numberset [ele+1];
+		}
+		else
+		{
+			s.min = numberset [ele];
+			s.max = numberset [ele+1];
+		}
+			
+		/*Sorting the numbers in ascending*/
+		for (loop = ele+2; loop < setlength; loop++)
+		{
+			if (numberset[loop] > s.max)
 			{
-				if (numberset[outer_loop] > numberset[inner_loop])
-				{
-					temp = numberset[outer_loop];
-					numberset[outer_loop] = numberset[inner_loop];
-					numberset[inner_loop] = temp;
-				}
+				s.max = numberset[loop];
+			}
+			else if (numberset[loop] < s.min)
+			{
+				s.min = numberset[loop];
 			}
 		}
 		/*calculating the total*/
-		for (outer_loop = 0; outer_loop < setlength; outer_loop++)
+		for (loop = 0; loop < setlength; loop++)
 		{
-			s.average += numberset[outer_loop];
+			s.average += numberset[loop];
 		}
 		s.average = s.average/setlength;
-		s.min = numberset[0];
-		s.max = numberset[setlength-1];
+
 	}
 	return s;
 }
 
-int emailAlertCallCount = 0;
-int ledAlertCallCount = 0;
