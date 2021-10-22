@@ -21,10 +21,10 @@ struct Stats compute_statistics(const float* numberset, int setlength) {
 	
 	int ele = 0, loop;
 	
-	/*Argment validation*/
+	/*Argument validation*/
 	if (setlength == 0)
 	{
-		s.average = s.min = s.max = NAN;
+		s.average = s.min = s.max = 1.0f/0.0f;
 	}
 	else
 	{
