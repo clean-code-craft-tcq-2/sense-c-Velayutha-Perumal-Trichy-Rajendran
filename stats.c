@@ -24,7 +24,7 @@ struct Stats compute_statistics(const float* numberset, int setlength) {
 	/*Argument validation*/
 	if (setlength == 0)
 	{
-		s.average = s.min = s.max = 1.0f/0.0f;
+		s.average = s.min = s.max = NAN;
 	}
 	else
 	{
